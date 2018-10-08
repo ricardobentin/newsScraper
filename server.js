@@ -46,6 +46,7 @@ app.get("/scrape", function(req, res) {
   axios.get("https://www.wsj.com/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
+    console.log("This is $:", $);
 
     $("h3.wsj-headline").each(function(i, element) {
       // Save an empty result object
