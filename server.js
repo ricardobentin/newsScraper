@@ -131,9 +131,10 @@ app.post("/articles/:id", function(req, res) {
 
 //Route for deleting notes:
 app.delete("/deleteNote/:id", function(req, res) {
-    console.log("this is req.params: ", req.params)
-  db.Note.findOneAndDelete({_id: req.params.id })
-    .then(function(dbNote) {
+  console.log("this is req.params: ", req.params);
+  db.Note.findOneAndDelete({ _id: req.params.id })
+//   db.Article.findOneAndDelete({ note: req.params.id })
+    .then(function() {
       // If all Notes are successfully found, send them back to the client
       console.log("Note Successfully Deleted!");
     })
