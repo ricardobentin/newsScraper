@@ -20,7 +20,7 @@ $(".scrape-new").on("click", function() {
     method: "GET",
     url: "/scrape"
   });
-  Location.reload();
+  window.location.reload();
 });
 
 // Whenever someone clicks a p tag
@@ -37,7 +37,7 @@ $(document).on("click", "p", function() {
   })
     // With that done, add the note information to the page
     .then(function(data) {
-      console.log(data);
+      console.log("this is data: ", data);
       // The title of the article
       $("#notes").append("<h2>" + data.title + "</h2>");
       // An input to enter a new title
@@ -46,12 +46,15 @@ $(document).on("click", "p", function() {
       $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
       $("#notes").append(
-        "<button data-id='" +
-          data._id +
-          "' id='savenote'>Save Note</button> <button data-id='" +
-          data._id +
-          "' id='deletenote'>Delete Note</button>"
+        `<button data-id="${data._id}" id="savenote">Save Note</button>`
       );
+      if (data.note) {
+        $("#notes").append(
+          `<button data-id="${
+            data.note._id
+          }" id='deletenote'>Delete Note</button>`
+        );
+      };
 
       // If there's a note in the article
       if (data.note) {
@@ -83,6 +86,27 @@ $(document).on("click", "#savenote", function() {
     .then(function(data) {
       // Log the response
       console.log(data);
+      // Empty the notes section
+      $("#notes").empty();
+    });
+
+  // Also, remove the values entered in the input and textarea for note entry
+  $("#titleinput").val("");
+  $("#bodyinput").val("");
+});
+
+$(document).on("click", "#deletenote", function() {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+
+  $.ajax({
+    method: "DELETE",
+    url: "/deleteNote/" + thisId
+  })
+    // With that done
+    .then(function() {
+      // Log the response
+      console.log("data successfully deleted!");
       // Empty the notes section
       $("#notes").empty();
     });

@@ -31,7 +31,7 @@ mongoose.connect(
 );
 // // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 // var MONGODB_URI =
-//   process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+//   process.env.MONGODB_URI || "mongodb://localhost/newsscraper";
 
 // // Set mongoose to leverage built in JavaScript ES6 Promises
 // // Connect to the Mongo DB
@@ -46,7 +46,6 @@ app.get("/scrape", function(req, res) {
   axios.get("https://www.wsj.com/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
-    console.log("This is $:", $);
 
     $("h3.wsj-headline").each(function(i, element) {
       // Save an empty result object
@@ -70,7 +69,6 @@ app.get("/scrape", function(req, res) {
           // If an error occurred, send it to the client
           return res.json(err);
         });
-      console.log("this is result: ", result);
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
@@ -117,7 +115,7 @@ app.post("/articles/:id", function(req, res) {
       console.log("This is req.params.id in the POST: ", req.params.id);
       return db.Article.findOneAndUpdate(
         { _id: req.params.id },
-        { $push: { note: dbNote._id } },
+        { note: dbNote._id },
         { new: true }
       );
     })
@@ -127,6 +125,20 @@ app.post("/articles/:id", function(req, res) {
     })
     .catch(function(err) {
       // If an error occurs, send it back to the client
+      res.json(err);
+    });
+});
+
+//Route for deleting notes:
+app.delete("/deleteNote/:id", function(req, res) {
+    console.log("this is req.params: ", req.params)
+  db.Note.findOneAndDelete({_id: req.params.id })
+    .then(function(dbNote) {
+      // If all Notes are successfully found, send them back to the client
+      console.log("Note Successfully Deleted!");
+    })
+    .catch(function(err) {
+      // If an error occurs, send the error back to the client
       res.json(err);
     });
 });
