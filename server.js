@@ -8,7 +8,7 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
@@ -25,18 +25,20 @@ app.use(express.static("public"));
 
 // Connect to the Mongo DB
 
+// mongoose.connect(
+//   "mongodb://localhost/newsscraper",
+//   { useNewUrlParser: true }
+// );
+// // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsscraper";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
 mongoose.connect(
-  "mongodb://localhost/newsscraper",
+  MONGODB_URI,
   { useNewUrlParser: true }
 );
-// // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-// var MONGODB_URI =
-//   process.env.MONGODB_URI || "mongodb://localhost/newsscraper";
-
-// // Set mongoose to leverage built in JavaScript ES6 Promises
-// // Connect to the Mongo DB
-// mongoose.Promise = Promise;
-// mongoose.connect(MONGODB_URI);
 
 // Routes
 
@@ -133,7 +135,7 @@ app.post("/articles/:id", function(req, res) {
 app.delete("/deleteNote/:id", function(req, res) {
   console.log("this is req.params: ", req.params);
   db.Note.findOneAndDelete({ _id: req.params.id })
-//   db.Article.findOneAndDelete({ note: req.params.id })
+    //   db.Article.findOneAndDelete({ note: req.params.id })
     .then(function() {
       // If all Notes are successfully found, send them back to the client
       console.log("Note Successfully Deleted!");
