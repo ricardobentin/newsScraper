@@ -44,7 +44,7 @@ mongoose.connect(
 
 // Route for getting all Articles from the db
 app.get("/", function(req, res) {
-  res.sendFile("index.HTML");
+  res.render("index");
 });
 
 // A GET route for scraping the echoJS website
