@@ -26,11 +26,7 @@ app.use(express.static("public"));
 
 // Connect to the Mongo DB
 
-// mongoose.connect(
-//   "mongodb://localhost/newsscraper",
-//   { useNewUrlParser: true }
-// );
-// // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+// // If deployed, use the deployed database. Otherwise use the local newsscraper database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsscraper";
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
@@ -41,11 +37,6 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
-//=============================================================================================
-// app.engine("handlebars", exphbs({ defaultLayout: "index" })); // set the main html page load out.
-// app.set("view engine", "handlebars"); // set the engine run root dir.
-// app.set("view engine", "ejs");
-
 // Routes
 
 // Route for getting homepage
@@ -54,7 +45,7 @@ app.get("/", function(req, res) {
   res.sendFile("index.html");
 });
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping WSJ
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://www.wsj.com/").then(function(response) {
