@@ -51,7 +51,7 @@ mongoose.connect(
 // Route for getting homepage
 app.get("/", function(req, res) {
   console.log("Index Main Page");
-  res.sendFile("/index.HTML");
+  res.sendFile("index.HTML");
 });
 
 // A GET route for scraping the echoJS website
