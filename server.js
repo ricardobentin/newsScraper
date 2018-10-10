@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 
 var axios = require("axios");
 var cheerio = require("cheerio");
+const exphbs = require("express-handlebars");
 
 // Require all models
 var db = require("./models");
@@ -40,10 +41,16 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
+//=============================================================================================
+app.engine("handlebars", exphbs({ defaultLayout: "index" })); // set the main html page load out.
+app.set("view engine", "handlebars"); // set the engine run root dir.
+
+
 // Routes
 
-// Route for getting all Articles from the db
+// Route for getting homepage
 app.get("/", function(req, res) {
+  console.log("Index Main Page");
   res.render("index");
 });
 
