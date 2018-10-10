@@ -43,8 +43,8 @@ mongoose.connect(
 
 //=============================================================================================
 // app.engine("handlebars", exphbs({ defaultLayout: "index" })); // set the main html page load out.
-app.set("view engine", "handlebars"); // set the engine run root dir.
-
+// app.set("view engine", "handlebars"); // set the engine run root dir.
+app.set("view engine", "ejs");
 
 // Routes
 
