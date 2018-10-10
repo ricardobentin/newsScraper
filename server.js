@@ -44,14 +44,14 @@ mongoose.connect(
 //=============================================================================================
 // app.engine("handlebars", exphbs({ defaultLayout: "index" })); // set the main html page load out.
 // app.set("view engine", "handlebars"); // set the engine run root dir.
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
 // Routes
 
 // Route for getting homepage
 app.get("/", function(req, res) {
   console.log("Index Main Page");
-  res.render("index");
+  res.send("./public/index.HTML");
 });
 
 // A GET route for scraping the echoJS website
