@@ -12,7 +12,7 @@ This app uses a combination of Axios and Cheerio to do the scraping of the Wall 
 
 newsScraper Demo:
 
-<img src="https://github.com/DevTinder/newsscraper/blob/master/public/img/demo.gif" alt="demo">
+<img src="https://github.com/DevTinder/newsScraper/blob/master/public/img/demo.gif" alt="demo">
 
 Packages used:
 * Axios
